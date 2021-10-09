@@ -2,28 +2,15 @@ import discord
 import os
 from discord.ext import commands
 
-client = discord.Client()
+client = commands.Bot(command_prefix='.')
 
 @client.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+    print('Bot Online')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
-
-@client.command()
+@client.command(pass_context=True)
 async def join(ctx):
-    channel = ctx.author.voice.channel
-    await channel.connect()
-    
-@client.command()
-async def leave(ctx):
-    await ctx.voice_client.disconnect()
-    #testing source control
+    channel = ctx.message.author.voice.voice_channel
+
 
 client.run(os.getenv('TOKEN'))
